@@ -2,22 +2,22 @@ export const flowersData = [
   {
     id: 1,
     category: "Una razón",
-    message: "Porque incluso en los días normales consigues hacer que todo se sienta un poquito más bonito."
+    message: "Porque incluso en los días normales consigues hacer que todo se sienta un poquito mas bonito."
   },
   {
     id: 2,
     category: "Un recuerdo",
-    message: "Hay momentos contigo que parecen pequeños, pero que yo guardo como si fueran enormes."
+    message: "Hay momentos que parecen pequeños, pero que yo colecciono como si fueran enormes."
   },
   {
     id: 3,
     category: "Algo que quiero vivir contigo",
-    message: "Quiero seguir acumulando momentos contigo que algún día podamos recordar juntos."
+    message: "Quiero seguir coleccionando momentos contigo que algún día podamos recordar juntos."
   },
   {
     id: 4,
     category: "Una promesa",
-    message: "No prometo que todo siempre será perfecto, pero sí prometo seguir poniendo de mi parte para que lo nuestro siga creciendo."
+    message: "No prometo que todo siempre sera perfecto, pero si prometo seguir poniendo de mi parte para que lo nuestro siga creciendo."
   },
   {
     id: 5,
@@ -37,17 +37,17 @@ export const flowersData = [
   {
     id: 8,
     category: "Una certeza",
-    message: "Si pudiera retroceder el tiempo, te buscaría más pronto para quererte más tiempo."
+    message: "Si pudiera retroceder el tiempo, te buscaría mas pronto para quererte mas tiempo."
   },
   {
     id: 9,
     category: "Un gracias",
-    message: "Gracias por ser mi refugio, mi paz y mi alegría en los días grises."
+    message: "Gracias por ser mi refugio, mi paz y mi alegría en los dias grises."
   },
   {
     id: 10,
     category: "Una verdad",
-    message: "Tus abrazos son mi lugar favorito en el mundo entero."
+    message: "Tus llamadas son lo mas bonito del dia."
   }
 ];
 
