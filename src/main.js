@@ -96,7 +96,7 @@ class App {
   }
 
   setupAudio() {
-    this.audioElement = new Audio('/audio/music.mp3');
+    this.audioElement = new Audio(import.meta.env.BASE_URL + 'audio/music.mp3');
     this.audioElement.loop = true;
     
     const audioBtn = document.getElementById('audio-btn');
