@@ -1,0 +1,400 @@
+:root {
+  --primary-color: #ffd700;
+  --secondary-color: #f7a8b8;
+  --bg-color-start: #2c1a3b;
+  --bg-color-end: #1a0f2e;
+  --text-color: #fffaf0;
+  --text-dark: #333;
+  --font-title: 'Playfair Display', serif;
+  --font-text: 'Lora', serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-text);
+  color: var(--text-color);
+  background: linear-gradient(135deg, var(--bg-color-start) 0%, var(--bg-color-end) 100%);
+  min-height: 100vh;
+  overflow: hidden; /* We'll control scrolling if needed, but for an experience it's often fixed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#app {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-title);
+  font-weight: 400;
+}
+
+button {
+  font-family: var(--font-text);
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-2px);
+}
+
+.scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease-in-out;
+  text-align: center;
+  padding: 20px;
+}
+
+.scene.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Intro Scene */
+.scene-intro h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.scene-intro p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+/* Garden Scene */
+.scene-garden {
+  background: linear-gradient(to bottom, #111e38 0%, #30263d 50%, #29463b 100%);
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-bottom: 15vh;
+}
+
+.garden-message {
+  position: absolute;
+  top: 20%;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+.garden-message.visible {
+  opacity: 1;
+}
+
+.garden-message h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.flowers-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  pointer-events: none; /* Let clicks pass to flowers */
+}
+
+.flower {
+  position: absolute;
+  bottom: 10px;
+  cursor: pointer;
+  pointer-events: auto;
+  transform-origin: bottom center;
+  transition: transform 0.3s ease;
+  animation: growFlower 2s ease-out forwards;
+  opacity: 0;
+}
+
+.flower:hover {
+  transform: scale(1.1) rotate(2deg);
+}
+
+.flower.discovered {
+  filter: brightness(1.2);
+}
+
+@keyframes growFlower {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Flower SVG Styles */
+.stem { stroke: #4caf50; stroke-width: 4; stroke-linecap: round; }
+.leaf { fill: #4caf50; }
+.petal { fill: var(--primary-color); }
+.center { fill: #8d6e13; }
+
+/* Modal for Messages */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 100;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.message-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 40px 30px;
+  border-radius: 20px;
+  max-width: 90%;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.05);
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .message-card {
+  transform: translateY(0);
+}
+
+.message-card h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.message-card p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.close-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  color: var(--primary-color);
+}
+
+/* Continue Button */
+.continue-btn-container {
+  position: absolute;
+  bottom: 20%;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+  z-index: 20;
+}
+
+.continue-btn-container.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Letter Scene */
+.scene-letter {
+  background: #1a1025;
+}
+
+.letter-content {
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+}
+
+.letter-line {
+  opacity: 0;
+  transform: translateY(10px);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.letter-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.letter-line.highlight {
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  margin-top: 30px;
+  font-style: italic;
+}
+
+/* Final Flower Scene */
+.scene-final {
+  background: radial-gradient(circle at center, #2c1e40 0%, #0d0814 100%);
+}
+
+.final-flower-container {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.final-flower {
+  cursor: pointer;
+  transform: scale(1.5);
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.final-flower:hover {
+  transform: scale(1.6);
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
+}
+
+.final-message {
+  opacity: 0;
+  transition: opacity 2s ease;
+  margin-top: 20px;
+}
+
+.final-message.visible {
+  opacity: 1;
+}
+
+.final-message h2 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.final-message p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.author {
+  margin-top: 40px;
+  font-size: 0.9rem;
+  opacity: 0.5;
+}
+
+/* End options */
+.end-options {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+/* Particles */
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: float 10s infinite linear;
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* Audio Controls */
+.audio-controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  transition: background 0.3s;
+}
+
+.audio-controls:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .scene-intro h1 { font-size: 2rem; }
+  .scene-intro p { font-size: 1rem; }
+  .message-card { width: 90%; padding: 30px 20px; }
+  .message-card h3 { font-size: 1.3rem; }
+  .message-card p { font-size: 1rem; }
+  .letter-line { font-size: 1rem; }
+  .final-message h2 { font-size: 1.5rem; }
+  .end-options { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
