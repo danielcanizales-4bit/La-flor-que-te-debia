@@ -8,7 +8,7 @@ class App {
     this.discoveredFlowers = new Set();
     this.audioElement = null;
     this.isMuted = true;
-    
+
     this.init();
   }
 
@@ -29,7 +29,7 @@ class App {
       <div id="scene-intro" class="scene scene-intro">
         <div style="font-size: 3rem; margin-bottom: 20px;">🌻</div>
         <h1>La flor que te debía</h1>
-        <p>Isabel, tengo algo que decirte...</p>
+        <p>Mi amor, tengo algo que decirte...</p>
         <button id="btn-open">Abrir</button>
       </div>
 
@@ -72,7 +72,7 @@ class App {
           <p>quiero que recuerdes que detrás de esta pantalla</p>
           <p>hubo alguien que se sentó a programar todo esto</p>
           <p>pensando únicamente en ti.</p>
-          <p class="highlight" style="color: var(--primary-color); font-size: 1.4rem; margin-top: 20px;">Te quiero, Isabel. ❤️</p>
+          <p class="highlight" style="color: var(--primary-color); font-size: 1.4rem; margin-top: 20px;">Te amo mucho mi princesa. ❤️</p>
           
           <div class="end-options">
             <button id="btn-restart-garden">Volver a ver el jardín</button>
@@ -98,7 +98,7 @@ class App {
   setupAudio() {
     this.audioElement = new Audio(import.meta.env.BASE_URL + 'audio/music.mp3');
     this.audioElement.loop = true;
-    
+
     const audioBtn = document.getElementById('audio-btn');
     audioBtn.addEventListener('click', () => {
       if (this.isMuted) {
@@ -131,41 +131,41 @@ class App {
   createParticles() {
     const container = document.getElementById('particles');
     const particleCount = 30;
-    
+
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
       particle.classList.add('particle');
-      
+
       const size = Math.random() * 5 + 2;
       particle.style.width = size + "px";
       particle.style.height = size + "px";
-      
+
       particle.style.left = (Math.random() * 100) + "vw";
-      
+
       const duration = Math.random() * 10 + 10;
       particle.style.animationDuration = duration + "s";
-      
+
       const delay = Math.random() * 10;
       particle.style.animationDelay = delay + "s";
-      
+
       container.appendChild(particle);
     }
   }
 
   getFlowerSVG(size = 50) {
     let petalsHTML = '';
-    for(let i=0; i<12; i++) {
-        petalsHTML += '<path class="petal" d="M0,0 Q10,-30 0,-40 Q-10,-30 0,0" transform="rotate(' + (i * 30) + ')" />';
+    for (let i = 0; i < 12; i++) {
+      petalsHTML += '<path class="petal" d="M0,0 Q10,-30 0,-40 Q-10,-30 0,0" transform="rotate(' + (i * 30) + ')" />';
     }
 
     return '<svg width="' + size + '" height="' + (size * 1.5) + '" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">' +
-        '<path class="stem" d="M50,75 Q40,110 50,150" fill="none" />' +
-        '<path class="leaf" d="M50,120 Q30,120 35,100 Q45,110 50,120" />' +
-        '<path class="leaf" d="M50,105 Q70,100 65,85 Q55,95 50,105" />' +
-        '<g transform="translate(50, 45)">' +
-          petalsHTML +
-          '<circle class="center" cx="0" cy="0" r="12" />' +
-        '</g>' +
+      '<path class="stem" d="M50,75 Q40,110 50,150" fill="none" />' +
+      '<path class="leaf" d="M50,120 Q30,120 35,100 Q45,110 50,120" />' +
+      '<path class="leaf" d="M50,105 Q70,100 65,85 Q55,95 50,105" />' +
+      '<g transform="translate(50, 45)">' +
+      petalsHTML +
+      '<circle class="center" cx="0" cy="0" r="12" />' +
+      '</g>' +
       '</svg>';
   }
 
@@ -183,7 +183,7 @@ class App {
     document.getElementById('btn-continue-letter').addEventListener('click', () => {
       this.showLetter();
     });
-    
+
     document.getElementById('btn-restart-garden').addEventListener('click', () => {
       this.discoveredFlowers.clear();
       this.showGarden();
@@ -211,18 +211,18 @@ class App {
   showGarden() {
     this.showScene('garden');
     this.discoveredFlowers.clear();
-    
+
     const container = document.getElementById('flowers-container');
     container.innerHTML = '';
     document.getElementById('continue-container').classList.remove('visible');
-    
+
     // Plant decorative background flowers
     const bgFlowersCount = 25;
     for (let i = 0; i < bgFlowersCount; i++) {
       const bgFlower = document.createElement('div');
       bgFlower.classList.add('flower');
       bgFlower.innerHTML = this.getFlowerSVG(20 + Math.random() * 15);
-      
+
       bgFlower.style.left = (Math.random() * 95) + "%";
       bgFlower.style.bottom = (10 + Math.random() * 50) + "px";
       bgFlower.style.opacity = "0.5";
@@ -230,34 +230,34 @@ class App {
       bgFlower.style.zIndex = "1";
       bgFlower.style.animationDelay = (Math.random() * 2) + "s";
       bgFlower.style.pointerEvents = "none";
-      
+
       container.appendChild(bgFlower);
     }
-    
+
     // Plant interactive flowers
     setTimeout(() => {
       flowersData.forEach((flower, index) => {
         const flowerEl = document.createElement('div');
         flowerEl.classList.add('flower');
         flowerEl.innerHTML = this.getFlowerSVG(45 + Math.random() * 15);
-        
+
         // Spread them out evenly to avoid overlap
         const segmentSize = 90 / flowersData.length;
         const leftPos = 5 + (segmentSize * index) + (Math.random() * (segmentSize * 0.4));
         flowerEl.style.left = leftPos + "%";
-        
+
         // Alternate heights and depths
         flowerEl.style.bottom = (5 + (index % 3) * 15 + Math.random() * 10) + "px";
         flowerEl.style.zIndex = (10 + index).toString();
         flowerEl.style.animationDelay = (index * 0.3) + "s";
-        
+
         flowerEl.addEventListener('click', () => {
           this.openFlowerModal(flower, flowerEl);
         });
-        
+
         container.appendChild(flowerEl);
       });
-      
+
       setTimeout(() => {
         document.getElementById('garden-message').classList.add('visible');
       }, 2000);
@@ -267,10 +267,10 @@ class App {
   openFlowerModal(flowerData, flowerElement) {
     flowerElement.classList.add('discovered');
     this.discoveredFlowers.add(flowerData.id);
-    
+
     document.getElementById('modal-title').textContent = flowerData.category;
     document.getElementById('modal-text').textContent = flowerData.message;
-    
+
     document.getElementById('modal').classList.add('active');
   }
 
@@ -287,7 +287,7 @@ class App {
     this.showScene('letter');
     const container = document.getElementById('letter-content');
     container.innerHTML = '';
-    
+
     letterContent.forEach((line, index) => {
       const p = document.createElement('p');
       p.classList.add('letter-line');
@@ -296,12 +296,12 @@ class App {
         p.classList.add('highlight');
       }
       container.appendChild(p);
-      
+
       setTimeout(() => {
         p.classList.add('visible');
       }, 1000 + (index * 1500));
     });
-    
+
     // Total time for letter reading before next scene
     const totalTime = 1000 + (letterContent.length * 1500) + 4000;
     setTimeout(() => {
@@ -311,33 +311,33 @@ class App {
 
   showFinalScene() {
     this.showScene('final');
-    
+
     document.getElementById('final-intro').style.opacity = '1';
     document.getElementById('final-flower-btn').style.opacity = '0';
     document.getElementById('final-flower-btn').style.pointerEvents = 'none';
     document.getElementById('final-message').classList.remove('visible');
-    
+
     setTimeout(() => {
       document.getElementById('final-intro').style.opacity = '0';
-      
+
       setTimeout(() => {
         const finalFlowerBtn = document.getElementById('final-flower-btn');
         finalFlowerBtn.style.opacity = '1';
         finalFlowerBtn.style.pointerEvents = 'auto';
-        
+
         // Single listener
         const onClickFinal = () => {
           finalFlowerBtn.removeEventListener('click', onClickFinal);
           document.getElementById('final-message').classList.add('visible');
-          
+
           // Small animation on final flower
           const svg = finalFlowerBtn.querySelector('.final-flower');
           svg.style.transform = 'scale(1.8)';
           svg.style.filter = 'drop-shadow(0 0 30px var(--primary-color))';
         };
-        
+
         finalFlowerBtn.addEventListener('click', onClickFinal);
-        
+
       }, 1500);
     }, 3000);
   }
